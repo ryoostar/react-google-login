@@ -94,6 +94,7 @@ class GoogleLogin extends Component {
       };
       onRequest();
       if (responseType === 'code') {
+          console.log(options);
         auth2.grantOfflineAccess(options).then(res => onSuccess(res), err => onFailure(err))
       } else {
         auth2.signIn(options).then(res => this.handleSigninSuccess(res), err => onFailure(err))
