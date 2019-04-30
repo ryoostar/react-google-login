@@ -14,13 +14,11 @@
     "fresh": "rm -rf node_modules dist; rm package-lock.json; npm i"
   },
   "pre-commit": [
-    "test",
-    "lint",
     "bundle"
   ],
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/anthonyjgrove/react-google-login.git"
+    "url": "https://github.com/ryoostar/react-google-login.git"
   },
   "keywords": [
     "react",
@@ -38,7 +36,7 @@
   "bugs": {
     "url": "https://github.com/anthonyjgrove/react-google-login/issues"
   },
-  "homepage": "https://github.com/anthonyjgrove/react-google-login",
+  "homepage": "https://github.com/ryoostar/react-google-login",
   "dependencies": {
     "@types/react": "*",
     "prop-types": "^15.6.0"

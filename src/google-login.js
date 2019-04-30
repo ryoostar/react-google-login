@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, {Component} from 'react'
 import PropTypes from 'prop-types'
 
 import Icon from './icon'
@@ -7,9 +7,9 @@ import loadScript from './load-script'
 
 class GoogleLogin extends Component {
   constructor(props) {
-    super(props)
-    this.signIn = this.signIn.bind(this)
-    this.enableButton = this.enableButton.bind(this)
+    super(props);
+    this.signIn = this.signIn.bind(this);
+    this.enableButton = this.enableButton.bind(this);
     this.state = {
       disabled: true,
       hovered: false,
@@ -33,7 +33,7 @@ class GoogleLogin extends Component {
       accessType,
       responseType,
       jsSrc
-    } = this.props
+    } = this.props;
 
     loadScript(document, 'script', 'google-login', jsSrc, () => {
       const params = {
@@ -47,14 +47,14 @@ class GoogleLogin extends Component {
         redirect_uri: redirectUri,
         scope,
         access_type: accessType
-      }
+      };
 
       if (responseType === 'code') {
         params.access_type = 'offline'
       }
 
       window.gapi.load('auth2', () => {
-        this.enableButton()
+        this.enableButton();
         if (!window.gapi.auth2.getAuthInstance()) {
           window.gapi.auth2.init(params).then(
             res => {
@@ -72,8 +72,9 @@ class GoogleLogin extends Component {
     })
   }
   componentWillUnmount() {
-    this.enableButton = () => {}
-    const el = document.getElementById('google-login')
+    this.enableButton = () => {
+    };
+    const el = document.getElementById('google-login');
     el.parentNode.removeChild(el)
   }
   enableButton() {
@@ -86,12 +87,12 @@ class GoogleLogin extends Component {
       e.preventDefault() // to prevent submit if used within form
     }
     if (!this.state.disabled) {
-      const auth2 = window.gapi.auth2.getAuthInstance()
-      const { onSuccess, onRequest, onFailure, prompt, responseType } = this.props
+      const auth2 = window.gapi.auth2.getAuthInstance();
+      const {onSuccess, onRequest, onFailure, prompt, responseType, redirectUri} = this.props;
       const options = {
-        prompt
-      }
-      onRequest()
+        prompt, redirectUri
+      };
+      onRequest();
       if (responseType === 'code') {
         auth2.grantOfflineAccess(options).then(res => onSuccess(res), err => onFailure(err))
       } else {
@@ -103,12 +104,12 @@ class GoogleLogin extends Component {
     /*
       offer renamed response keys to names that match use
     */
-    const basicProfile = res.getBasicProfile()
-    const authResponse = res.getAuthResponse()
-    res.googleId = basicProfile.getId()
-    res.tokenObj = authResponse
-    res.tokenId = authResponse.id_token
-    res.accessToken = authResponse.access_token
+    const basicProfile = res.getBasicProfile();
+    const authResponse = res.getAuthResponse();
+    res.googleId = basicProfile.getId();
+    res.tokenObj = authResponse;
+    res.tokenId = authResponse.id_token;
+    res.accessToken = authResponse.access_token;
     res.profileObj = {
       googleId: basicProfile.getId(),
       imageUrl: basicProfile.getImageUrl(),
@@ -116,13 +117,13 @@ class GoogleLogin extends Component {
       name: basicProfile.getName(),
       givenName: basicProfile.getGivenName(),
       familyName: basicProfile.getFamilyName()
-    }
+    };
     this.props.onSuccess(res)
   }
 
   render() {
-    const { tag, type, className, disabledStyle, buttonText, children, render, theme, icon } = this.props
-    const disabled = this.state.disabled || this.props.disabled
+    const {tag, type, className, disabledStyle, buttonText, children, render, theme, icon} = this.props;
+    const disabled = this.state.disabled || this.props.disabled;
 
     if (render) {
       return render({ onClick: this.signIn, disabled })
@@ -140,19 +141,19 @@ class GoogleLogin extends Component {
       fontSize: 14,
       fontWeight: '500',
       fontFamily: 'Roboto, sans-serif'
-    }
+    };
 
     const hoveredStyle = {
       cursor: 'pointer',
       opacity: 0.9
-    }
+    };
 
     const activeStyle = {
       cursor: 'pointer',
       backgroundColor: theme === 'dark' ? '#3367D6' : '#eee',
       color: theme === 'dark' ? '#fff' : 'rgba(0, 0, 0, .54)',
       opacity: 1
-    }
+    };
 
     const defaultStyle = (() => {
       if (disabled) {
@@ -172,7 +173,7 @@ class GoogleLogin extends Component {
       }
 
       return initialStyle
-    })()
+    })();
     const googleLoginButton = React.createElement(
       tag,
       {
@@ -192,7 +193,7 @@ class GoogleLogin extends Component {
           {children || buttonText}
         </ButtonContent>
       ]
-    )
+    );
 
     return googleLoginButton
   }
@@ -227,7 +228,7 @@ GoogleLogin.propTypes = {
   render: PropTypes.func,
   theme: PropTypes.string,
   icon: PropTypes.bool
-}
+};
 
 GoogleLogin.defaultProps = {
   type: 'button',
@@ -247,6 +248,6 @@ GoogleLogin.defaultProps = {
   theme: 'light',
   onRequest: () => {},
   jsSrc: 'https://apis.google.com/js/api.js'
-}
+};
 
 export default GoogleLogin
